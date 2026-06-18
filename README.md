@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/readme-logo.png" width="320" alt="The Devourer logo" />
+  <img src="assets/readme.png" width="320" alt="The Devourer logo" />
 </p>
 
 <h1 align="center">The Devourer</h1>
