@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self';" />
+  <title>The Devourer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="titlebar-btns">
+    <button id="btn-min" class="tb-btn" aria-label="Minimize">&#8722;</button>
+    <button id="btn-close" class="tb-btn tb-close" aria-label="Close">&#10005;</button>
+  </div>
+
+  <div id="stage">
+    <div id="halo"></div>
+    <div id="void-field" aria-hidden="true">
+      <span class="void-star v1"></span>
+      <span class="void-star v2"></span>
+      <span class="void-star v3"></span>
+      <span class="void-star v4"></span>
+      <span class="void-star v5"></span>
+      <span class="void-star v6"></span>
+      <span class="void-star v7"></span>
+      <span class="void-star v8"></span>
+      <span class="void-star v9"></span>
+      <span class="void-star v10"></span>
+      <span class="void-star v11"></span>
+      <span class="void-star v12"></span>
+      <span class="void-star v13"></span>
+      <span class="void-star v14"></span>
+      <span class="void-star v15"></span>
+      <span class="void-star v16"></span>
+      <span class="void-star v17"></span>
+      <span class="void-star v18"></span>
+      <span class="void-star v19"></span>
+      <span class="void-star v20"></span>
+      <span class="void-star v21"></span>
+      <span class="void-star v22"></span>
+      <span class="void-star v23"></span>
+      <span class="void-star v24"></span>
+      <span class="void-star v25"></span>
+      <span class="void-star v26"></span>
+      <span class="void-star v27"></span>
+      <span class="void-star v28"></span>
+      <span class="void-star v29"></span>
+      <span class="void-star v30"></span>
+      <span class="void-star v31"></span>
+      <span class="void-star v32"></span>
+      <span class="void-star v33"></span>
+      <span class="void-star v34"></span>
+      <span class="void-star v35"></span>
+      <span class="void-star v36"></span>
+      <span class="void-line vl1"></span>
+      <span class="void-line vl2"></span>
+      <span class="void-line vl3"></span>
+      <span class="void-line vl4"></span>
+      <span class="void-line vl5"></span>
+      <span class="void-line vl6"></span>
+    </div>
+    <div id="ground-shadow"></div>
+    <div id="vortex" aria-hidden="true">
+      <svg class="vortex-lines" viewBox="0 0 260 190" xmlns="http://www.w3.org/2000/svg">
+        <path class="trail trail-a" d="M 224 34 C 190 38 176 62 148 82 C 122 101 95 101 68 112" />
+        <path class="trail trail-b" d="M 230 76 C 190 69 169 78 143 94 C 119 109 91 111 69 114" />
+        <path class="trail trail-c" d="M 202 118 C 172 108 149 109 126 116 C 105 122 86 121 69 113" />
+        <path class="trail trail-d" d="M 188 18 C 179 48 162 64 136 81 C 112 96 91 105 68 112" />
+        <path class="trail trail-e" d="M 250 58 C 212 42 181 54 151 78 C 126 98 100 107 69 113" />
+        <path class="trail trail-f" d="M 238 144 C 201 116 174 110 143 116 C 115 121 91 117 69 113" />
+        <path class="trail trail-g" d="M 206 2 C 204 36 186 59 157 80 C 128 101 98 108 68 112" />
+        <path class="trail trail-h" d="M 260 22 C 220 24 191 43 160 72 C 130 99 99 108 68 112" />
+        <path class="trail trail-i" d="M 258 164 C 216 128 183 118 148 119 C 117 120 92 117 69 113" />
+        <path class="trail trail-j" d="M 262 104 C 218 93 188 95 153 105 C 121 115 94 116 69 114" />
+      </svg>
+      <span class="star s1"></span>
+      <span class="star s2"></span>
+      <span class="star s3"></span>
+      <span class="star s4"></span>
+      <span class="star s5"></span>
+      <span class="star s6"></span>
+      <span class="star s7"></span>
+      <span class="star s8"></span>
+      <span class="star s9"></span>
+      <span class="star s10"></span>
+      <span class="star s11"></span>
+      <span class="star s12"></span>
+      <span class="star s13"></span>
+      <span class="star s14"></span>
+      <span class="star s15"></span>
+      <span class="star s16"></span>
+      <span class="star s17"></span>
+      <span class="star s18"></span>
+      <span class="star s19"></span>
+      <span class="star s20"></span>
+      <span class="star s21"></span>
+      <span class="star s22"></span>
+      <span class="star s23"></span>
+      <span class="star s24"></span>
+      <span class="star s25"></span>
+      <span class="star s26"></span>
+      <span class="star s27"></span>
+      <span class="star s28"></span>
+      <span class="star s29"></span>
+      <span class="star s30"></span>
+      <span class="star s31"></span>
+      <span class="star s32"></span>
+      <span class="star s33"></span>
+      <span class="star s34"></span>
+      <span class="star s35"></span>
+      <span class="star s36"></span>
+      <span class="star s37"></span>
+      <span class="star s38"></span>
+      <span class="star s39"></span>
+      <span class="star s40"></span>
+      <span class="star s41"></span>
+      <span class="star s42"></span>
+      <span class="star s43"></span>
+      <span class="star s44"></span>
+      <span class="star s45"></span>
+      <span class="star s46"></span>
+      <span class="star s47"></span>
+      <span class="star s48"></span>
+      <span class="star s49"></span>
+      <span class="star s50"></span>
+      <span class="star s51"></span>
+      <span class="star s52"></span>
+      <span class="star s53"></span>
+      <span class="star s54"></span>
+      <span class="star s55"></span>
+      <span class="star s56"></span>
+      <span class="star s57"></span>
+      <span class="star s58"></span>
+      <span class="star s59"></span>
+      <span class="star s60"></span>
+      <span class="star s61"></span>
+      <span class="star s62"></span>
+      <span class="star s63"></span>
+      <span class="star s64"></span>
+    </div>
+
+    <svg id="bin" viewBox="0 0 240 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="binBody" x1="82" y1="108" x2="151" y2="241" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#8564df" />
+          <stop offset="0.48" stop-color="#5938b5" />
+          <stop offset="1" stop-color="#281451" />
+        </linearGradient>
+        <linearGradient id="binSide" x1="78" y1="128" x2="164" y2="207" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#ffffff" stop-opacity="0.13" />
+          <stop offset="0.44" stop-color="#ffffff" stop-opacity="0.01" />
+          <stop offset="1" stop-color="#080015" stop-opacity="0.30" />
+        </linearGradient>
+        <radialGradient id="bodyBloom" cx="0" cy="0" r="1" gradientTransform="translate(112 145) rotate(78) scale(105 74)" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#f1e9ff" stop-opacity="0.20" />
+          <stop offset="0.48" stop-color="#a884ff" stop-opacity="0.08" />
+          <stop offset="1" stop-color="#5e34b7" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="binRim" x1="0" y1="100" x2="0" y2="113" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#b9a2f7" />
+          <stop offset="0.48" stop-color="#7853cf" />
+          <stop offset="1" stop-color="#3a1c78" />
+        </linearGradient>
+        <linearGradient id="rimBack" x1="0" y1="98" x2="0" y2="109" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#56329f" />
+          <stop offset="1" stop-color="#1c0b39" />
+        </linearGradient>
+        <linearGradient id="binLid" x1="0" y1="78" x2="0" y2="97" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#bca5fa" />
+          <stop offset="0.50" stop-color="#7d58d5" />
+          <stop offset="1" stop-color="#3b1d7b" />
+        </linearGradient>
+        <linearGradient id="handleGrad" x1="105" y1="67" x2="134" y2="82" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#5c3aa3" />
+          <stop offset="0.52" stop-color="#32165e" />
+          <stop offset="1" stop-color="#1b0a38" />
+        </linearGradient>
+        <linearGradient id="baseBand" x1="0" y1="225" x2="0" y2="244" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#3f217e" />
+          <stop offset="1" stop-color="#180a32" />
+        </linearGradient>
+        <linearGradient id="paperGrad" x1="0" y1="78" x2="0" y2="130" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#fff8e2" />
+          <stop offset="1" stop-color="#eee8ff" />
+        </linearGradient>
+        <filter id="binShadow" x="-25%" y="-25%" width="150%" height="150%">
+          <feDropShadow dx="0" dy="11" stdDeviation="7" flood-color="#000000" flood-opacity="0.36" />
+        </filter>
+        <clipPath id="paperSinkClip" clipPathUnits="userSpaceOnUse">
+          <rect x="91" y="61" width="58" height="51" />
+        </clipPath>
+        <clipPath id="intakeClip" clipPathUnits="userSpaceOnUse">
+          <rect x="73" y="101" width="94" height="8" />
+        </clipPath>
+        <clipPath id="bodyClip" clipPathUnits="userSpaceOnUse">
+          <path d="M 73 108 H 167 L 158 226 C 157 237 151 242 141 244 C 127 247 113 247 99 244 C 89 242 83 237 82 226 Z" />
+        </clipPath>
+      </defs>
+
+      <ellipse cx="120" cy="236" rx="51" ry="11" fill="#000000" opacity="0.25" />
+
+      <g id="bin-body" filter="url(#binShadow)">
+        <path id="body-shell" d="M 73 108 H 167 L 158 226 C 157 237 151 242 141 244 C 127 247 113 247 99 244 C 89 242 83 237 82 226 Z" fill="url(#binBody)" />
+        <path id="body-shade" d="M 73 108 H 167 L 158 226 C 157 237 151 242 141 244 C 127 247 113 247 99 244 C 89 242 83 237 82 226 Z" fill="url(#binSide)" />
+        <path id="body-bloom" d="M 75 111 H 165 L 156 224 C 155 233 149 238 140 240 C 127 243 113 243 100 240 C 91 238 85 233 84 224 Z" fill="url(#bodyBloom)" />
+        <path id="shell-outline" d="M 73.5 108.5 H 166.5 L 157.5 226 C 156.5 236 150 241 140 243.5 C 127 246 113 246 100 243.5 C 90 241 83.5 236 82.5 226 Z" fill="none" stroke="#d9caff" stroke-width="1" opacity="0.15" />
+        <path id="left-reflection" d="M 84 119 L 91 222 C 92 232 97 236 104 238" fill="none" stroke="#d9caff" stroke-width="3" stroke-linecap="round" opacity="0.10" />
+        <path id="right-depth" d="M 158 118 L 151 222 C 150 232 146 236 139 239" fill="none" stroke="#100522" stroke-width="6" stroke-linecap="round" opacity="0.18" />
+        <path id="shoulder-line" d="M 83 124 C 102 119 138 119 157 124" fill="none" stroke="#dbcfff" stroke-width="1" stroke-linecap="round" opacity="0.10" />
+
+        <path id="rim-back" d="M 67 99 H 173 C 177 99 179 101 179 104 C 179 107 176 109 172 109 H 68 C 64 109 61 107 61 104 C 61 101 63 99 67 99 Z" fill="url(#rimBack)" />
+        <path id="rim-inner" d="M 69 102 C 89 99 151 99 171 102 L 169 107 C 146 105 94 105 71 107 Z" fill="#10051f" opacity="0" />
+
+        <g id="contents" clip-path="url(#paperSinkClip)">
+          <g class="paper p1">
+            <path d="M 102 78 H 137 L 145 86 V 128 H 102 Z" fill="url(#paperGrad)" />
+            <path d="M 137 78 V 87 H 145 Z" fill="#c8bbf8" opacity="0.80" />
+            <line x1="111" y1="98" x2="136" y2="98" />
+            <line x1="111" y1="110" x2="132" y2="110" />
+            <line x1="111" y1="122" x2="138" y2="122" />
+          </g>
+        </g>
+
+        <path id="top-rim" d="M 65 104 H 175 C 178 104 180 106 180 108 V 110 C 180 113 177 115 173 115 H 67 C 63 115 60 113 60 110 V 108 C 60 106 62 104 65 104 Z" fill="url(#binRim)" />
+        <path id="rim-highlight" d="M 68 106 H 172" stroke="#e4d8ff" stroke-width="1.4" stroke-linecap="round" opacity="0.24" />
+        <g id="rim-fasteners" fill="#e4d8ff" opacity="0.26">
+          <circle cx="68" cy="109.5" r="1.3" />
+          <circle cx="172" cy="109.5" r="1.3" />
+        </g>
+        <g id="intake-streaks" clip-path="url(#intakeClip)">
+          <path class="intake intake-a" d="M 162 103 C 146 103 132 104 122 106 C 116 107 111 108 103 109" />
+          <path class="intake intake-b" d="M 154 106 C 141 105 130 106 121 107 C 115 108 109 109 101 109" />
+          <path class="intake intake-c" d="M 145 103 C 135 104 127 105 121 107 C 116 108 112 108 105 109" />
+          <path class="intake intake-d" d="M 136 108 C 128 108 123 108 119 109 C 115 109 111 109 104 109" />
+        </g>
+        <path id="mouth-slot" d="M 73 102 H 167 V 109 H 73 Z" fill="#10051f" opacity="0.72" />
+        <path id="mouth-glow" d="M 74 108 H 166" stroke="#d8c9ff" stroke-width="1.6" stroke-linecap="round" opacity="0.20" />
+        <path id="rim-shade" d="M 68 113 H 172" stroke="#1f0b43" stroke-width="1.8" stroke-linecap="round" opacity="0.18" />
+
+        <g id="front-lines" clip-path="url(#bodyClip)" fill="none" stroke="#d9ccff" stroke-linecap="round">
+          <path class="bin-rib" d="M 96 136 L 94 218" stroke-width="1.5" opacity="0.16" />
+          <path class="bin-rib" d="M 112 132 L 111 225" stroke-width="1.6" opacity="0.20" />
+          <path class="bin-rib" d="M 128 132 L 129 225" stroke-width="1.6" opacity="0.20" />
+          <path class="bin-rib" d="M 144 136 L 147 218" stroke-width="1.5" opacity="0.14" />
+        </g>
+        <path id="base-band" d="M 88 226 C 103 232 137 232 152 226 L 151 234 C 145 241 132 243 120 243 C 108 243 95 241 89 234 Z" fill="url(#baseBand)" opacity="0.58" />
+        <path id="base-highlight" d="M 96 229 C 108 232 132 232 144 229" stroke="#9473dc" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.20" />
+        <path id="base-edge" d="M 101 242 C 112 245 128 245 139 242" stroke="#ad8ef5" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.16" />
+        <path id="bottom-soft" d="M 99 239 C 112 243 128 243 141 239" stroke="#120626" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.28" />
+      </g>
+
+      <g id="lid">
+        <path id="lid-underlay" d="M 69 88 H 171 C 176 88 179 91 178 95 C 177 99 174 101 169 101 H 71 C 66 101 63 99 62 95 C 61 91 64 88 69 88 Z" fill="#120626" opacity="0.42" />
+        <path id="lid-handle" d="M 106 82 V 73 C 106 68 110 66 115 66 H 125 C 130 66 134 68 134 73 V 82 H 128 V 74 C 128 72 127 71 124 71 H 116 C 113 71 112 72 112 74 V 82 Z" fill="url(#handleGrad)" />
+        <path id="handle-shine" d="M 114 71 H 126" stroke="#c5b2f4" stroke-width="1.4" stroke-linecap="round" opacity="0.44" />
+        <path id="lid-panel" d="M 68 86 H 172 C 176 86 178 88 178 91 V 93 C 178 96 175 98 171 98 H 69 C 65 98 62 96 62 93 V 91 C 62 88 64 86 68 86 Z" fill="url(#binLid)" />
+        <path id="lid-highlight" d="M 72 88.5 H 168" stroke="#eadfff" stroke-width="1.4" stroke-linecap="round" opacity="0.24" />
+        <path id="lid-crown" d="M 78 86 C 95 83 145 83 162 86" fill="none" stroke="#d9caff" stroke-width="1" stroke-linecap="round" opacity="0.18" />
+        <path id="lid-edge-left" d="M 66 89 C 64 91 64 94 67 96" fill="none" stroke="#eadfff" stroke-width="1.2" stroke-linecap="round" opacity="0.18" />
+        <path id="lid-bottom" d="M 70 96 H 170" stroke="#25104d" stroke-width="1.5" stroke-linecap="round" opacity="0.32" />
+      </g>
+    </svg>
+
+    <div id="burst"></div>
+
+    <div id="terminal" aria-hidden="true">
+      <div class="t-head">
+        <span class="t-tag"></span>
+        <span id="t-phase">DEVOUR</span>
+        <span class="t-dim"> ::</span>
+        <span id="t-target">--</span>
+      </div>
+      <div class="t-detail">
+        <span class="t-tag"></span>
+        <span id="t-detail">awaiting target</span>
+      </div>
+      <div class="t-bar">
+        <div class="t-fill" id="t-fill"></div>
+      </div>
+      <div class="t-foot">
+        <span id="t-pct">0%</span>
+        <span class="t-dim"> ::</span>
+        <span id="t-bytes">0 B</span>
+      </div>
+    </div>
+
+    <div id="mode-panel">
+      <div class="mode-title">SECURE MODE</div>
+      <div class="mode-segments" role="radiogroup" aria-label="Secure mode">
+        <button type="button" class="mode-btn is-active" data-mode="normal" aria-pressed="true">Normal</button>
+        <button type="button" class="mode-btn" data-mode="aggressive" aria-pressed="false">Aggressive</button>
+        <button type="button" class="mode-btn" data-mode="extreme" aria-pressed="false">Extreme</button>
+      </div>
+      <div id="mode-note">4-pass wipe</div>
+      <div id="erase-notice" role="note">
+        BEST-EFFORT ONLY · SSDs, backups, and shadow copies may retain data
+      </div>
+    </div>
+
+    <div id="warning-panel" hidden aria-live="polite">
+      <div class="warning-title">BEST-EFFORT WARNINGS</div>
+      <ul id="warning-list"></ul>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

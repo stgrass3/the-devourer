@@ -1,0 +1,59 @@
+{
+  "name": "the-devourer",
+  "version": "1.0.2",
+  "description": "Best-effort secure file shredder for Windows",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "node --test test/*.test.js",
+    "test:e2e": "electron test/electron-smoke.js",
+    "test:package": "node test/package-smoke.js",
+    "check": "node --check main.js && node --check preload.js && node --check renderer.js && node --check shredder.js && node --check shredder-worker.js && node --check test/electron-smoke.js && node --check test/package-smoke.js",
+    "dist:win": "electron-builder --win portable --x64",
+    "release:verify": "npm run check && npm test && npm run dist:win && npm run test:package"
+  },
+  "author": "The Devourer contributors",
+  "license": "MIT",
+  "build": {
+    "appId": "com.devourer.secureshredder",
+    "productName": "The Devourer",
+    "asar": true,
+    "compression": "maximum",
+    "directories": {
+      "output": "artifacts"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer.js",
+      "shredder.js",
+      "shredder-worker.js",
+      "index.html",
+      "styles.css",
+      "assets/**",
+      "README.md",
+      "LICENSE",
+      "package.json"
+    ],
+    "win": {
+      "icon": "assets/icon.png",
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "portable": {
+      "artifactName": "The-Devourer-${version}-portable-${arch}.${ext}"
+    }
+  },
+  "devDependencies": {
+    "electron": "42.4.0",
+    "electron-builder": "^26.15.3"
+  }
+}

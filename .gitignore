@@ -1,0 +1,13 @@
+node_modules/
+artifacts/
+release/
+
+.codex-*
+*.log
+npm-debug.log*
+
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.serena/
