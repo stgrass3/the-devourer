@@ -26,9 +26,16 @@ warnings.
 > universal forensic-erasure guarantee. Read [Security model and limitations](#security-model-and-limitations)
 > before using it for sensitive data.
 
+## Quick deletion demonstration
+
+<p align="center">
+  <img src="assets/demo.gif" width="620" alt="The Devourer deleting a file in Normal mode" />
+</p>
+
 ## Contents
 
 - [User Guide — simple instructions for everyday users](USER_GUIDE.md)
+- [Quick deletion demonstration](#quick-deletion-demonstration)
 - [Features](#features)
 - [Requirements](#requirements)
 - [Quick start](#quick-start)
