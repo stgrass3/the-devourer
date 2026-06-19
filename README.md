@@ -10,7 +10,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/platform-Windows%20x64-0078D6" alt="Windows x64" />
-  <img src="https://img.shields.io/badge/version-1.0.2-8f6df0" alt="Version 1.0.2" />
+  <img src="https://img.shields.io/badge/version-1.0.3-8f6df0" alt="Version 1.0.3" />
   <img src="https://img.shields.io/badge/Electron-42.4.0-47848F" alt="Electron 42.4.0" />
   <img src="https://img.shields.io/badge/license-MIT-5cffb0" alt="MIT License" />
 </p>
@@ -80,7 +80,7 @@ rejected.
 
 ## Quick start
 
-1. Download `The-Devourer-1.0.2-portable-x64.exe` from the repository's
+1. Download `The-Devourer-1.0.3-portable-x64.exe` from the repository's
    Releases page.
 2. Run the executable. It extracts to a temporary directory and opens the app;
    it does not install a permanent system service.

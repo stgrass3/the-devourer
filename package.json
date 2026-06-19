@@ -1,6 +1,6 @@
 {
   "name": "the-devourer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Best-effort secure file shredder for Windows",
   "main": "main.js",
   "scripts": {

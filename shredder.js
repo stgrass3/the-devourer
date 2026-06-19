@@ -4,7 +4,9 @@ const path = require('path');
 const crypto = require('crypto');
 const { execFileSync } = require('child_process');
 
-const CHUNK = 1024 * 1024;
+const FILE_WIPE_CHUNK = 4 * 1024 * 1024;
+const FREE_SPACE_CHUNK = 1024 * 1024;
+const FREE_SPACE_FILE_BYTES = 256 * 1024 * 1024;
 const DATA_PROGRESS_START = 0.30;
 const DATA_PROGRESS_END = 0.78;
 const FREE_SPACE_PROGRESS_START = 0.91;
@@ -91,29 +93,11 @@ function driveLetterFor(filePath) {
   return match ? match[1].toUpperCase() : null;
 }
 
-function hasWindowsReparsePoint(filePath) {
-  if (!IS_WIN) return false;
-
-  try {
-    const out = runPowerShell(
-      `$item=Get-Item -LiteralPath '${psEscape(filePath)}' -Force;` +
-      `if (($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) { '1' } else { '0' }`
-    ).trim();
-    return out === '1';
-  } catch (_) {
-    return false;
-  }
-}
-
 function inspectTarget(filePath) {
   const linkStats = fs.lstatSync(filePath);
 
   if (linkStats.isSymbolicLink()) {
     throw new Error('target is a symbolic link; refusing to shred link targets');
-  }
-
-  if (hasWindowsReparsePoint(filePath)) {
-    throw new Error('target is a reparse point; refusing unsafe namespace target');
   }
 
   const stats = fs.statSync(filePath);
@@ -124,22 +108,6 @@ function inspectTarget(filePath) {
   }
 
   return stats;
-}
-
-function assertExclusiveAccess(filePath) {
-  if (!IS_WIN) return;
-
-  try {
-    runPowerShell(
-      `$fs=[System.IO.File]::Open('${psEscape(filePath)}',` +
-      `[System.IO.FileMode]::Open,` +
-      `[System.IO.FileAccess]::ReadWrite,` +
-      `[System.IO.FileShare]::None);` +
-      `$fs.Close()`
-    );
-  } catch (err) {
-    throw new Error(`target is locked by another process: ${err.message}`);
-  }
 }
 
 function detectStorageRisk(filePath) {
@@ -247,20 +215,6 @@ function detectShadowCopies(filePath) {
   }
 }
 
-function setNormalAttributes(filePath) {
-  try {
-    runPowerShell(`Set-ItemProperty -LiteralPath '${psEscape(filePath)}' -Name Attributes -Value 'Normal'`);
-    return;
-  } catch (_) {
-    try {
-      fs.chmodSync(filePath, 0o666);
-      return;
-    } catch (err) {
-      throw new Error(`failed to clear file attributes: ${err.message}`);
-    }
-  }
-}
-
 function wipeTimestamps(filePath) {
   try {
     runPowerShell(
@@ -304,6 +258,56 @@ function enumerateStreams(filePath) {
       });
   } catch (err) {
     throw new Error(`failed to enumerate alternate data streams: ${err.message}`);
+  }
+}
+
+function prepareTarget(filePath) {
+  if (!IS_WIN) {
+    try {
+      fs.chmodSync(filePath, 0o666);
+    } catch (err) {
+      throw new Error(`failed to clear file attributes: ${err.message}`);
+    }
+    return enumerateStreams(filePath);
+  }
+
+  try {
+    const output = runPowerShell(
+      `$item=Get-Item -LiteralPath '${psEscape(filePath)}' -Force -ErrorAction Stop;` +
+      `if (($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) { throw 'DEVOURER_REPARSE' };` +
+      `$item.Attributes=[IO.FileAttributes]::Normal;` +
+      `$lock=$null;` +
+      `try {` +
+      `  $lock=[IO.File]::Open('${psEscape(filePath)}',` +
+      `    [IO.FileMode]::Open,[IO.FileAccess]::ReadWrite,[IO.FileShare]::None)` +
+      `} catch { throw ('DEVOURER_LOCKED: ' + $_.Exception.Message) }` +
+      `finally { if ($lock) { $lock.Dispose() } };` +
+      `$streams=@(Get-Item -LiteralPath '${psEscape(filePath)}' -Stream * -ErrorAction Stop | ` +
+      `  Select-Object Stream,Length);` +
+      `[pscustomobject]@{Streams=$streams} | ConvertTo-Json -Depth 3 -Compress`
+    ).trim();
+
+    if (!output) return [];
+    const parsed = JSON.parse(output);
+    const items = Array.isArray(parsed.Streams) ? parsed.Streams : (parsed.Streams ? [parsed.Streams] : []);
+    return items
+      .map((item) => ({
+        name: String(item.Stream || '').trim(),
+        size: Number.isFinite(Number(item.Length)) ? Number(item.Length) : 0,
+      }))
+      .filter((stream) => {
+        const upper = stream.name.toUpperCase();
+        return stream.name && upper !== ':$DATA' && upper !== '$DATA';
+      });
+  } catch (err) {
+    const detail = String(err.stderr || '');
+    if (detail.includes('DEVOURER_REPARSE')) {
+      throw new Error('target is a reparse point; refusing unsafe namespace target');
+    }
+    if (detail.includes('DEVOURER_LOCKED')) {
+      throw new Error('target is locked by another process');
+    }
+    throw new Error(`failed to prepare Windows target: ${shortCommandFailure(err)}`);
   }
 }
 
@@ -376,7 +380,7 @@ function wipeFreeSpace(dir, onProgress, enabled) {
   const wipeDir = `${uniquePath(dir)}.freewipe`;
   fs.mkdirSync(wipeDir, { recursive: false });
 
-  const filler = Buffer.alloc(CHUNK);
+  const filler = Buffer.alloc(FREE_SPACE_CHUNK);
   const targetBytes = Math.max(0, baseFree - FREE_SPACE_RESERVE_BYTES);
   let writtenTotal = 0;
   let fileIndex = 0;
@@ -390,10 +394,10 @@ function wipeFreeSpace(dir, onProgress, enabled) {
       const fd = fs.openSync(fillerPath, 'wx');
       try {
         let fileWritten = 0;
-        while (fileWritten < 256 * CHUNK && writtenTotal < targetBytes) {
+        while (fileWritten < FREE_SPACE_FILE_BYTES && writtenTotal < targetBytes) {
           crypto.randomFillSync(filler);
           const remaining = targetBytes - writtenTotal;
-          const chunkSize = Math.min(CHUNK, remaining);
+          const chunkSize = Math.min(FREE_SPACE_CHUNK, remaining);
           fs.writeSync(fd, filler, 0, chunkSize);
           fileWritten += chunkSize;
           writtenTotal += chunkSize;
@@ -466,14 +470,11 @@ function shredFile(filePath, onProgress, options = {}) {
     emit(0.11, 'VSS CHECK', 'shadow copy scan');
     warnings.push(...detectShadowCopies(filePath).warnings);
 
-    emit(0.14, 'STRIP ATTRS', 'clearing blocking flags');
-    setNormalAttributes(filePath);
+    emit(0.14, 'STRIP ATTRS', 'clearing flags and validating access');
+    const streams = prepareTarget(filePath);
 
-    emit(0.16, 'LOCK CHECK', 'exclusive write probe');
-    assertExclusiveAccess(filePath);
-
-    emit(0.18, 'ENUM ADS', 'scanning hidden streams');
-    const streams = enumerateStreams(filePath);
+    emit(0.16, 'LOCK CHECK', 'exclusive write access confirmed');
+    emit(0.18, 'ENUM ADS', 'hidden streams mapped');
     bytesTotal = (mainSize * 4) + streams.reduce((sum, stream) => sum + (stream.size * 4), 0);
     emit(0.22, 'ADS MAP', streams.length ? `${streams.length} stream${streams.length > 1 ? 's' : ''} found` : 'no named streams');
 
@@ -600,7 +601,7 @@ function shredOpenHandle(fd, fileSize, label, onProgress, onBytes) {
 }
 
 function writeFillPass(fd, fill, fileSize, onBytes) {
-  const patternBuf = Buffer.alloc(CHUNK, fill);
+  const patternBuf = Buffer.alloc(Math.min(FILE_WIPE_CHUNK, fileSize), fill);
   let remaining = fileSize;
   let offset = 0;
 
@@ -615,10 +616,11 @@ function writeFillPass(fd, fill, fileSize, onBytes) {
 function writeRandomPass(fd, fileSize, onBytes) {
   let remaining = fileSize;
   let offset = 0;
+  const randomBuf = Buffer.allocUnsafe(Math.min(FILE_WIPE_CHUNK, fileSize));
 
   while (remaining > 0) {
-    const chunkSize = Math.min(remaining, CHUNK);
-    const randomBuf = crypto.randomBytes(chunkSize);
+    const chunkSize = Math.min(remaining, randomBuf.length);
+    crypto.randomFillSync(randomBuf, 0, chunkSize);
     writeAll(fd, randomBuf, chunkSize, offset, onBytes);
     offset += chunkSize;
     remaining -= chunkSize;

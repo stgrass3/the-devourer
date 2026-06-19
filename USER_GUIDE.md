@@ -40,7 +40,7 @@ Test the app on an unimportant file first if you have never used it before.
 
 ## Delete a file step by step
 
-1. Open `The-Devourer-1.0.2-portable-x64.exe`.
+1. Open `The-Devourer-1.0.3-portable-x64.exe`.
 2. Choose a deletion mode. **Normal** is the right choice for most people.
 3. Click the trash bin to open the file picker, or drag one file onto the app.
 4. Read the displayed file name and warning carefully.
@@ -214,4 +214,3 @@ No. It is a portable executable.
 **Where can I read the technical details?**  
 See the [project README](README.md), especially its deletion pipeline, security
 architecture, limitations, testing, and build sections.
-
