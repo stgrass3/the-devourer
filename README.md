@@ -28,6 +28,7 @@ warnings.
 
 ## Contents
 
+- [User Guide — simple instructions for everyday users](USER_GUIDE.md)
 - [Features](#features)
 - [Requirements](#requirements)
 - [Quick start](#quick-start)
